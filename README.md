@@ -2,4 +2,4 @@
 
 This is my first project in Python. 
 
-Initially this will be useful for people looking for Lyrics,Album Art etc.
+Currently its functionality is limited to moving the audio files to another folder and saving a text file with the name of the audio files. I will be adding more functions.
