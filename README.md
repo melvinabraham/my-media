@@ -1,4 +1,4 @@
-# py-media
+# My-Media
 
 My-Media is a simple Media Suite written in Python.
 
