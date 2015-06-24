@@ -1,5 +1,7 @@
 import os
 import time
+import urllib2
+from bs4 import BeautifulSoup
 
 
 cntr=0
@@ -32,15 +34,16 @@ def main_menu():
 	print "\n\n		Welcome, My-Media is a Media Suite that has the following functionalities:"
 	print "\n 		1. MEDIA MANAGEMENT"
 	print "\n		2. SEARCH FOR MEDIA ON THE INTERNET"
-
-	ch=input()
+	print "\n 		3. LYRICS FOR A SONG"
+	ch=input("\n\t\t")
 	if ch==1:
 		mediamanagement()
 
 	if ch==2:
 		search()
 
-
+	if ch==3:
+		lyrics()
 
 
 
@@ -94,7 +97,8 @@ def mediamanagement():
 
 	print "\n 		1. Sort the media files into separate folders of Audio,Video and Pictures"
 	print "\n 		2. Mix two audio files"
-	ch=input()
+	print "\n"
+	ch=input("\t\t")
 	
 	if ch==1:
 		sort_media()
@@ -114,7 +118,7 @@ def mediamanagement():
 
 def sort_media():
 	
-	p=raw_input("Input the directory: ")
+	p=raw_input("\tInput the directory: ")
 	os.chdir(p)
 	os.chdir("..")
 	path=os.getcwd()
@@ -156,26 +160,34 @@ def sort_media():
 def mix_audio():
 	
 	header_med_man()
-	paud1=raw_input("Enter the path for the first audio file: ")
+	paud1=raw_input("\tEnter the path for the first audio file: ")
 	faud1=open(paud1+".mp3","rb")
 	aud1=faud1.read()
-	paud2=raw_input("Enter the path for the second audio file: ")
+	paud2=raw_input("\tEnter the path for the second audio file: ")
 	faud2=open(paud2+".mp3","rb")
 	aud2=faud2.read()
-	naud=raw_input("Enter the name of the mixed audio file: ")
+	naud=raw_input("\tEnter the name of the mixed audio file: ")
 	faud=open(naud+".mp3","wb")
 	aud=aud1+aud2
 	faud.write(aud)
-	paud=raw_input("Enter the directory to store the mixed audio file: ")
+	paud=raw_input("\tEnter the directory to store the mixed audio file: ")
 	os.system('mv %s %s' % (os.getcwd()+"/"+naud+".mp3",paud+"/"+naud+".mp3"))
 	mediamanagement()
 
 
 
-
-
-
-
+def lyrics():
+	path=raw_input("\t\tEnter the URL (Please Make Sure It Is From www.lyricsmode.com): ")
+	link=urllib2.urlopen(path)
+	soup=BeautifulSoup(link)
+	k=soup.p
+	k=k.get_text()
+	l=k.split('\n')
+	l=' '.join(l)
+	print l
+	ch=raw_input("\n\n\n\tPress Y to continue")
+	if ch.upper()=='Y':
+		main_menu()
 
 
 
