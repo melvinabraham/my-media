@@ -1,9 +1,26 @@
 # My-Media
 
-My-Media is a simple Media Suite written in Python.
+My-Media is a Simple **Media Suite** written in **Python**.
 
 The interface has been redisgned as a Menu Driven Interface with the following functinalities:
 	
-	1. Media Management: This functionality is used to manage media (Pictures,Videos,Songs). It arranges the files according to their type into respective folders and keeps a log of the Audio,Video and the Pictures that have been moved.
+##Media Management:
+	 This functionality is used to manage media (Pictures,Videos,Songs). It has the following fuctions:
 
-	2. Search: This functionality is used to gain more info about the media at hand.
+
+
+				1. It **sorts** the files according to their type into respective folders  of the Audio,Video and the Pictures that have been moved.
+
+				
+				2. It can be used to mix two Audio files.
+
+
+##2. Search:
+
+	 This functionality is used to gain more info about the media at hand using the Internet.
+
+
+###3. Lyrics:
+
+	This uses basic *Web-Scraping* (http://lyricsmode.com) to get the lyrics of the Song.
+
