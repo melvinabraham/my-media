@@ -97,7 +97,7 @@ def mediamanagement():
 
 	print "\n 		1. Sort the media files into separate folders of Audio,Video and Pictures"
 	print "\n 		2. Mix two audio files"
-	print "\n"
+	print "\n 		3. Go back to Main Menu"
 	ch=input("\t\t")
 	
 	if ch==1:
@@ -105,6 +105,8 @@ def mediamanagement():
 	if ch==2:
 		mix_audio() 
 
+	if ch==3:
+		main_menu()
 
 
 
@@ -117,11 +119,19 @@ def mediamanagement():
 
 
 def sort_media():
-	
-	p=raw_input("\tInput the directory: ")
-	os.chdir(p)
-	os.chdir("..")
-	path=os.getcwd()
+
+	try:
+		p=raw_input("\tInput the directory: ")
+		os.chdir(p)
+		os.chdir("..")
+		path=os.getcwd()
+
+	except OSError:
+
+		print "\n\t\t Check the path entered."
+		time.sleep(1)
+		main_menu()
+
 
 	if not os.path.exists("Songs"):
 		os.mkdir("Songs")
@@ -132,67 +142,99 @@ def sort_media():
 
 
 	os.chdir(p)
+	try:
 
-	for f in os.listdir(p):
-		if f.endswith(".mp3"):
-			print "Moving "+f
-			with open("songnames.txt","a+") as text_file:
-				text_file.write(f+"\n")
-			os.system('mv %s %s' % (p+"/"+f,path+"/Songs/"+f))
+		for f in os.listdir(p):
+			if f.endswith(".mp3"):
+				print "Moving "+f
+				with open("songnames.txt","a+") as text_file:
+					text_file.write(f+"\n")
+				os.system('mv %s %s' % (p+"/"+f,path+"/Songs/"+f))
 
-		if f.endswith(".mp4") or f.endswith(".mpeg4") or f.endswith(".avi") or f.endswith(".3gp"):
-			print "Moving "+f
-			with open("videonames.txt","a+") as text_file:
-				text_file.write(f+"\n")
-			os.system('mv %s %s' % (p+"/"+f,path+"/Vids/"+f))
+			if f.endswith(".mp4") or f.endswith(".mpeg4") or f.endswith(".avi") or f.endswith(".3gp"):
+				print "Moving "+f
+				with open("videonames.txt","a+") as text_file:
+					text_file.write(f+"\n")
+				os.system('mv %s %s' % (p+"/"+f,path+"/Vids/"+f))
 
-		if f.endswith(".jpg") or f.endswith(".jpeg"):
-			print "Moving "+f
-			with open("photonames.txt","a+") as text_file:
-				text_file.write(f+"\n")
-			os.system('mv %s %s' % (p+"/"+f,path+"/Pics/"+f))
-	time.sleep(2)
+			if f.endswith(".jpg") or f.endswith(".jpeg"):
+				print "Moving "+f
+				with open("photonames.txt","a+") as text_file:
+					text_file.write(f+"\n")
+				os.system('mv %s %s' % (p+"/"+f,path+"/Pics/"+f))
+				time.sleep(2)
+
+	except:
+			
+		print "\n\t\tError: Please Check that a valid path was entered."			
+		time.sleep(1)
+
 	main_menu()
+
 
 
 
 
 def mix_audio():
 	
-	header_med_man()
-	paud1=raw_input("\tEnter the path for the first audio file: ")
-	faud1=open(paud1+".mp3","rb")
-	aud1=faud1.read()
-	paud2=raw_input("\tEnter the path for the second audio file: ")
-	faud2=open(paud2+".mp3","rb")
-	aud2=faud2.read()
-	naud=raw_input("\tEnter the name of the mixed audio file: ")
-	faud=open(naud+".mp3","wb")
-	aud=aud1+aud2
-	faud.write(aud)
-	paud=raw_input("\tEnter the directory to store the mixed audio file: ")
-	os.system('mv %s %s' % (os.getcwd()+"/"+naud+".mp3",paud+"/"+naud+".mp3"))
+	try:	
+		header_med_man()
+		paud1=raw_input("\tEnter the path for the first audio file: ")
+		faud1=open(paud1+".mp3","rb")
+		aud1=faud1.read()
+		paud2=raw_input("\tEnter the path for the second audio file: ")
+		faud2=open(paud2+".mp3","rb")
+		aud2=faud2.read()
+		naud=raw_input("\tEnter the name of the mixed audio file: ")
+		faud=open(naud+".mp3","wb")
+		aud=aud1+aud2
+		faud.write(aud)
+		paud=raw_input("\tEnter the directory to store the mixed audio file: ")
+
+
+	except:
+
+		print "\n\t\tEntered directory does not exist."
+		time.sleep(1)
+		mediamanagement()
+
+
+
+
+	try:
+		os.system('mv %s %s' % (os.getcwd()+"/"+naud+".mp3",paud+"/"+naud+".mp3"))
+	
+	except:
+
+		print "\n\tError: Please check the path and name of the audio files: "
+		time.sleep(1)
+
 	mediamanagement()
 
 
 
 def lyrics():
+	
 	path=raw_input("\t\tEnter the URL (Please Make Sure It Is From www.lyricsmode.com): ")
-	link=urllib2.urlopen(path)
-	soup=BeautifulSoup(link)
-	k=soup.p
-	k=k.get_text()
-	l=k.split('\n')
-	l=' '.join(l)
-	print l
+	try:
+		link=urllib2.urlopen(path)
+		soup=BeautifulSoup(link)
+		k=soup.p
+		k=k.get_text()
+		l=k.split('\n')
+		l=' '.join(l)
+		print l
+		
+	except: 
+
+		print "\n\t\tPlease check the URL entered"
+
+	
+
 	ch=raw_input("\n\n\n\tPress Y to continue")
 	if ch.upper()=='Y':
 		main_menu()
-
-
-
-
-
+	
 
 
 
