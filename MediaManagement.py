@@ -35,6 +35,8 @@ def main_menu():
 	print "\n 		1. MEDIA MANAGEMENT"
 	print "\n		2. SEARCH FOR MEDIA ON THE INTERNET"
 	print "\n 		3. LYRICS FOR A SONG"
+	print "\n 		4. PLAY A SONG"
+	print "\n 		5. STOP MUSIC PLAYBACK"
 	ch=input("\n\t\t")
 	if ch==1:
 		mediamanagement()
@@ -45,10 +47,17 @@ def main_menu():
 	if ch==3:
 		lyrics()
 
+	if ch==4:
+		playmusic()
 
+	if ch==5:
+		killmusic()
 
+	else:
 
-
+		print "Enter a valid option"
+		time.sleep(1)
+		main_menu()
 
 
 """SEARCH THE INTERNET FOR MEDIA"""
@@ -108,8 +117,11 @@ def mediamanagement():
 	if ch==3:
 		main_menu()
 
+	else:
 
-
+		print "\n\nEnter a valid option"
+		time.sleep(1)
+		mediamanagement()
 
 
 
@@ -236,11 +248,46 @@ def lyrics():
 		main_menu()
 	
 
+def killmusic():
+
+	os.system("killall rhythmbox")
+	main_menu()
 
 
+def playmusic():
 
+	i=1
+	path=raw_input("\n\t\tEnter the Path Of The Audio Folder")
+	try:
+		os.chdir(path)
 
+	except OSError:
 
+		print "The entered directory does not exist"
+		time.sleep(2)
+		main_menu()
+
+	header()
+	
+
+	for item in os.listdir(path):
+		
+		print i,".",item,"\n"
+		i=i+1
+
+	ch=raw_input("Please enter the song number you want to play")
+	music=os.listdir(path)[int(ch)-1]
+	os.system('rhythmbox %s' % (music))
+
+	ch=raw_input("To stop music playback press 'Z' and to go back press 'B'")
+	
+	if ch.upper()=='B':
+		
+		main_menu()
+
+	if ch.upper()=='Z':
+
+		killmusic()
 
 
 main_menu()
