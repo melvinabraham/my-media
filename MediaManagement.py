@@ -26,17 +26,22 @@ def main_menu():
 	global cntr
 	header()
 	time.sleep(2)
+	
 	if cntr==0:
 		os.system("espeak \"Welcome to My Media\"")
 		cntr=1
 	else:
 		os.system("espeak \"My Media Suite. Please select an option\"")
+	
 	print "\n\n		Welcome, My-Media is a Media Suite that has the following functionalities:"
 	print "\n 		1. MEDIA MANAGEMENT"
 	print "\n		2. SEARCH FOR MEDIA ON THE INTERNET"
 	print "\n 		3. LYRICS FOR A SONG"
 	print "\n 		4. PLAY A SONG"
 	print "\n 		5. STOP MUSIC PLAYBACK"
+	print "\n 		6. TOP 20 BOLLYWOOD SONGS"
+	
+
 	ch=input("\n\t\t")
 	if ch==1:
 		mediamanagement()
@@ -52,6 +57,9 @@ def main_menu():
 
 	if ch==5:
 		killmusic()
+
+	if ch==6:
+		top20bollywood()
 
 	else:
 
@@ -288,6 +296,56 @@ def playmusic():
 	if ch.upper()=='Z':
 
 		killmusic()
+
+
+
+def top20bollywood():
+
+	header()
+	print "\n"
+	print "	 	  				####### ####### ######      #####    ###   		";
+	print "	 					   #    #     # #     #    #     #  #   # 		";
+	print "	 					   #    #     # #     #          # #     # 		";
+	print "	 					   #    #     # ######      #####  #     # 		";
+	print "	 					   #    #     # #          #       #     # 		";
+	print "	 					   #    #     # #          #        #   #  		";
+	print "	 					   #    ####### #          #######   ###   		";
+	print "\n"
+	
+
+	
+	try:	
+		path=urllib2.urlopen('http://www.radiomirchi.com/more/mirchi-top-20/')
+	
+	except urllib2.URLError:
+
+		print "\n\n\n\t\tPlease Check Your Internet Connection"
+		time.sleep(1)
+		main_menu()
+
+	soup=BeautifulSoup(path)
+	s1=soup.findAll('div',{'class' : 'pannel02' })
+
+	l1=list()
+	l2=list()
+
+	for l in s1:
+		l1.append(l.find('h2').text)
+		l2.append(''.join(set(tag['data-vid-src'] for tag in l.find('a'))))
+
+	d=dict(zip(l1,l2))
+	i=1
+	for key,value in d.iteritems():
+		print "	 		    	 ",i,".",key,"                 ",value[2:]
+		i=i+1
+
+	ch=raw_input("\n\t PRESS 'Y' TO GO BACK")
+	
+	if ch.upper()=='Y':
+		main_menu()
+
+	else:
+		main_menu()
 
 
 main_menu()
