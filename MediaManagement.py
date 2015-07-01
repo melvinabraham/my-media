@@ -40,6 +40,8 @@ def main_menu():
 	print "\n 		4. PLAY A SONG"
 	print "\n 		5. STOP MUSIC PLAYBACK"
 	print "\n 		6. TOP 20 BOLLYWOOD SONGS"
+	print "\n 		7. FAVOURITE MUSIC"
+	print "\n 		8. EXIT "
 	
 
 	ch=input("\n\t\t")
@@ -61,6 +63,11 @@ def main_menu():
 	if ch==6:
 		top20bollywood()
 
+	if ch==7:
+		favmusic()
+
+	if ch==8:
+		exit(1)
 	else:
 
 		print "Enter a valid option"
@@ -346,6 +353,107 @@ def top20bollywood():
 
 	else:
 		main_menu()
+
+
+
+
+def favmusic1():
+
+	print "\n\n"
+	print "\t\tWelcome, This Module Will Help You Select Favourite Songs and Store them in a Folder"
+	fpath=raw_input("\n\t\tEnter The path(including the Name of the Favourite Folder) that must be created : ")
+
+	try:
+		os.mkdir(fpath)
+	
+	except OSError:
+		
+		print "\n\t\tThis Favourite Folder has already been created."
+		time.sleep(1)
+		favmusic()
+
+	path=raw_input("\n\t\tPlease Enter the directory from where the Favourites will be selected:")
+	
+	try:
+		os.chdir(path)
+	
+	except:
+		print "\n\t\tThe Entered Path Does Not Exist"
+		time.sleep(1)
+		favmusic()
+
+	i=1
+
+	print "\n"
+	
+	for item in os.listdir(path):
+	
+		print "\t\t\t\t",i,".",item,"\n"
+		i=i+1
+
+	f=raw_input("\n\t\tPlease enter the Song Numbers to be the Favourites each separated by a space: ")
+
+	for item in f.split():
+		try:
+			os.system('cp %s %s %s'%(os.listdir(path)[int(item)-1],os.getcwd(),fpath))
+			print "\n\t\tCopy Successful. Favourites Folder has been created at: ",fpath
+			time.sleep(1.5)
+		except OSError:
+			print os.listdir(path)[int(item)-1]," could not be copied."
+			time.sleep(1)
+			main_menu()
+
+
+	main_menu()
+
+
+
+def favmusic2():
+
+	print "\n\n\t\tHello, Seems Like You have already created A Favourite List. Select an Option:  "
+	print "\n\n\t\t1. PLAY FAVOURITE LIST"
+	print "\n\n\t\t2. CREATE ANOTHER FAVOURITE LIST"
+	print "\n\n\t\t3. GO BACK TO MAIN MENU"
+
+	ch=raw_input("\n\n\t\tEnter your choice: ")
+
+	if ch=='1':
+	
+		 path=raw_input("\n\n\t\tEnter the path where your favourite tracks are located: ")
+		 os.chdir(path)
+		 os.system("rhythmbox "+' '.join(os.listdir(path)))
+
+	if ch=='2':
+		favmusic1()
+
+	if ch=='3':
+		main_menu()
+
+	else:
+		print "\n\n\t\tPlease Enter A Valid Option "
+		time.sleep(1)
+		main_menu()
+
+	main_menu()
+
+
+def favmusic():
+	os.system("clear")
+	print "\n\t\tThis Module WIll Help Create Favourite Tracks For Each Specific User."
+	ch=raw_input("\n\t\tIf This Is Your First Time Here Enter '1' otherwiser enter '2' : ")
+
+	if ch=='1':
+		favmusic1()
+
+	if ch=='2':	
+		favmusic2()	
+	else:
+		print "Please enter a valid option"
+		time.sleep(1)
+		main_menu()
+
+
+
 
 
 main_menu()
