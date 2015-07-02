@@ -31,7 +31,7 @@ def main_menu():
 		os.system("espeak \"Welcome to My Media\"")
 		cntr=1
 	else:
-		os.system("espeak \"My Media Suite. Please select an option\"")
+		os.system("espeak \"My Media Suite.\"")
 	
 	print "\n\n		Welcome, My-Media is a Media Suite that has the following functionalities:"
 	print "\n 		1. MEDIA MANAGEMENT"
@@ -159,13 +159,20 @@ def sort_media():
 		time.sleep(1)
 		main_menu()
 
+ 	try:
+		if not os.path.exists("Songs"):
+			os.mkdir("Songs")
+		if not os.path.exists("Vids"):
+			os.mkdir("Vids")
+		if not os.path.exists("Pics"):
+			os.mkdir("Pics")
 
-	if not os.path.exists("Songs"):
-		os.mkdir("Songs")
-	if not os.path.exists("Vids"):
-		os.mkdir("Vids")
-	if not os.path.exists("Pics"):
-		os.mkdir("Pics")
+	except OSError:
+		
+		header()
+		print "\n\n\t\tCreating A Folder In This Directory Required 'sudo' access. PLease try again in superuser mode.(Try 'sudo su' in a terminal)"
+		time.sleep(4)
+		main_menu()
 
 
 	os.chdir(p)
@@ -191,10 +198,11 @@ def sort_media():
 				os.system('mv %s %s' % (p+"/"+f,path+"/Pics/"+f))
 				time.sleep(2)
 
-	except:
+	except OSError:
 			
 		print "\n\t\tError: Please Check that a valid path was entered."			
 		time.sleep(1)
+		main_menu()
 
 	main_menu()
 
